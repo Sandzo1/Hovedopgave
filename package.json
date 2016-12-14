@@ -1,0 +1,23 @@
+{
+  "name": "CDK.SmartPay.WebAPP",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "react-scripts": "0.7.0"
+  },
+  "dependencies": {
+    "@cdkglobal/react-jqm": "^2.0.2",
+    "axios": "^0.15.2",
+    "react": "^15.4.1",
+    "react-datagrid": "^2.1.2",
+    "react-dom": "^15.4.1",
+    "zingchart": "^2.5.0",
+    "zingchart-react": "^1.0.5"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

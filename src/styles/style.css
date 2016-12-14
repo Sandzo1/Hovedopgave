@@ -1,0 +1,23 @@
+#root, #root > div{
+    height:100%;
+	width:100%;
+    overflow-y: auto;
+}
+
+#myBar1{
+    height:100%;
+	width:100%;
+    min-height:100px;
+    margin: 0;
+    padding: 0;
+}
+#myBar1 > div{
+    height:50%;
+	width:100%;
+    min-height:100px;
+    margin-bottom: 0;
+    padding: 0;
+}
+
+
+
