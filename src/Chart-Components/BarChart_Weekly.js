@@ -4,52 +4,47 @@ import {
 } from 'zingchart-react';
 import axios from 'axios'
 
-class BarChart_Turnover extends React.Component {
+class BarChart_Weekly extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             dataFromServer: [],
             dateTime: []
         };
-        this.GetTurnOver = this.GetTurnOver.bind(this);
-        this.GetTurnOver();
+        this.GetWeekly = this.GetWeekly.bind(this);
+        this.GetWeekly();
     }
 
     componentDidMount() {
-        setInterval(this.GetTurnOver, 10000); //24 timer -- //8640 1 time - 69120 8 time
+        setInterval(this.GetWeekly, 5000); //24 timer -- //8640 1 time - 69120 8 time
     }
-    GetTurnOver() {
+    GetWeekly() {
         console.log("GETTING TURNOVER FROM SERVER");
 
         let _this = this;
         let turnOverCollection = [];
         let dateTimeCollection = [];
-
+      
         this.serverRequest =
             axios
-            .get('https://localhost:44370/api/smartpay/GetSmartPayTurnover')
+            .get('https://localhost:44370/api/smartpay/GetWeekly')
             .then(function (result) {
 
-                { /* Setting state to empty */ }
-                _this.setState({
-                    dataFromServer: [],
+                { /* STATE IS READONLY, NEED TO SAVE VALUE TO ANTOTHER VARIABLE*/ }
+                console.log(result)
+                 _this.setState({
+                    dataFromServer: [] ,
                     dateTime: []
                 });
 
-                { /* STATE IS READONLY, NEED TO SAVE VALUE TO ANTOTHER VARIABLE*/ }
                 turnOverCollection = _this.state.dataFromServer.slice();
                 dateTimeCollection = _this.state.dateTime.slice();
 
-                result.data.forEach(function (element) {
+                result.data.forEach(function(element) {
+                    
                     dateTimeCollection.push((element["WeekNumber"]));
                     turnOverCollection.push(element["Amount"]);
                 }, this);
-
-                { /* Deleting the oldest week*/ }
-                if (turnOverCollection.length > 30 || dateTimeCollection.length > 30) {
-                    turnOverCollection.shift();
-                    dateTimeCollection.shift();
-                }
 
                 _this.setState({
                     dataFromServer: turnOverCollection,
@@ -66,33 +61,31 @@ class BarChart_Turnover extends React.Component {
                     depth: 7,
                     true3d: false
                 },
+                "utc": true,
+                "timezone": +1,
                 "title": {
-                    "text": "SmartPay - Turnover per week in DKK",
+                    "text": "Weekly",
                     "font-family": "Georgia",
-                    mediaRules: [{
-                        maxWidth: 600,
-                        "font-size": 14
-                    }]
-
                 },
                 "plot": {
                     "animation": {
                         "delay": "1000",
                         "effect": "5",
                         "method": "6",
-                        "sequence": "3"
+                        "sequence": "2"
                     },
                     "tooltip": {
                         "text": " Amount %vt,- DKK <br> Week %kt ",
                         "placement": "node:top",
                         "border-radius": "5px",
-                        "font-size": 20
+                        "font-size":20
+                        
                     },
                     "value-box": {
                         "text": "%v DKK",
                         "font-color": "#FFFFFF",
                         "font-family": "Georgia",
-                        "font-size": 20,
+                        "font-size": 17,
                         "font-style": "normal",
                     },
                     mediaRules: [{
@@ -124,13 +117,13 @@ class BarChart_Turnover extends React.Component {
                 "scaleX": {
                     item: {
                         color: "#FFFFFF",
-                        "font-size": 12,
+                        "font-size": 20,
                     },
-                    "label": {
+                     "label": {
                         "text": "Week",
                         "font-size": 20,
                     },
-                    maxItems: 30,
+                    maxItems: 40,
                     labels: this.state.dateTime,
 
                     mediaRules: [{
@@ -169,7 +162,7 @@ class BarChart_Turnover extends React.Component {
             }]
         }
         return ( <
-            Core id = "myBarChart_Turnover"
+            Core id = "myBarChart_Weekly"
             width = "100%"
             height = "100%"
             data = {
@@ -184,4 +177,4 @@ class BarChart_Turnover extends React.Component {
 
 
 
-export default BarChart_Turnover
+export default BarChart_Weekly

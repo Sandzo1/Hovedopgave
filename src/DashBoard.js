@@ -44,8 +44,8 @@ class Dashboard extends Component {
                     <Button icon="carat-l" onClick={onBack}>Back</Button>
                 </Header>
                 <div id="myBar1">
-                    <BarChart_Transactions />
-                    <BarChart_Turnover />
+                    <BarChart_Turnover/>
+                    <BarChart_Transactions/>
                 </div>
             </Page>
         );

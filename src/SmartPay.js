@@ -128,15 +128,15 @@ class SmartPay extends React.Component {
 
                     <Panel centre >
                         <form onSubmit={this.handleSubmit} method="post">
-                            <Input type="text" ref="dealerID" placeholder="DealerID.............." onChange={this.handleDealerIDChange} /><br />
-                            <Input type="text" ref="dealerName" placeholder="DealerName........" value={this.state.DealerName} onChange={this.handleDealerName} /><br />
-                            <Input type="text" ref="password" placeholder="Password............" value={this.state.Password} onChange={this.handlePassword} /><br />
-                            <Input type="text" ref="mobilePayWord" placeholder="MobilePayWord..." value={this.state.MobilePayWord} onChange={this.handleMobilePayWord} />
+                            <Input type="text" ref="dealerID" placeholder="Enter DealerID Here" onChange={this.handleDealerIDChange} required/>
+                            <Input type="text" ref="dealerName" placeholder="Enter DealerName Here" value={this.state.DealerName} onChange={this.handleDealerName} />
+                            <Input type="text" ref="password" placeholder="Enter Password Here" value={this.state.Password} onChange={this.handlePassword} />
+                            <Input type="text" ref="mobilePayWord" placeholder="Enter MobilePayWord Here" value={this.state.MobilePayWord} onChange={this.handleMobilePayWord} />
 
                             <PrimaryButton onClick={this.handleSubmit}> Create New Dealer</PrimaryButton>
                         </form>
                     </Panel>
-                    <br /><br />
+                    <br />
 
                     <Panel centre>
                         <DataGrid
