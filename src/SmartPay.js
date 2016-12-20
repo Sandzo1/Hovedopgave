@@ -13,7 +13,7 @@ class SmartPay extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            dataFromServer: this.getDataFromServer(),
+            dataFromServer: [],
             DealerID: '',
             DealerName: '',
             Created: '',
@@ -27,7 +27,6 @@ class SmartPay extends React.Component {
         this.handleMobilePayWord = this.handleMobilePayWord.bind(this);
 
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.getDataFromServer = this.getDataFromServer.bind(this);
     }
     handleDealerIDChange() {
         let value = this.refs.dealerID.input.value;
@@ -58,7 +57,6 @@ class SmartPay extends React.Component {
         let dateTime = this.handleCreated();
         this.setState({ Created: dateTime });
         this.postDataToServer();
-        this.getDataFromServer();
     }
 
     postDataToServer() {
@@ -84,29 +82,14 @@ class SmartPay extends React.Component {
                 console.log(response)
                 console.log("Dealer created " + response.config.data)
                 alert("Dealer Created " + response.config.data)
+                this.getDataFromServer();
             })
                 .catch(function (error) {
                     console.log(error);
                 });
 
     }
-    getDataFromServer() {
-        console.log("GETTING SMARTPAY USERS FROM SERVER");
 
-        let _this = this;
-        this.serverRequest =
-            axios
-                .get('https://localhost:44370/api/smartpay/GetSmartPayUsers')
-                .then(function (result) {
-                    console.log(result)
-                    _this.setState({ dataFromServer: result.data })
-
-                        .catch(function (error) {
-                            console.log(error);
-                            alert("An error occured")
-                        });
-                });
-    }
     render() {
         const columns = [
             { name: 'DealerID', width: '15%' },
@@ -115,7 +98,7 @@ class SmartPay extends React.Component {
             { name: 'Password', width: '35%' },
             { name: 'MobilePayWord', width: '20%' }
         ];
-
+       
         return (
             <Page>
                 <Header>
@@ -129,9 +112,9 @@ class SmartPay extends React.Component {
                     <Panel centre >
                         <form onSubmit={this.handleSubmit} method="post">
                             <Input type="text" ref="dealerID" placeholder="Enter DealerID Here" onChange={this.handleDealerIDChange} required/>
-                            <Input type="text" ref="dealerName" placeholder="Enter DealerName Here" value={this.state.DealerName} onChange={this.handleDealerName} />
-                            <Input type="text" ref="password" placeholder="Enter Password Here" value={this.state.Password} onChange={this.handlePassword} />
-                            <Input type="text" ref="mobilePayWord" placeholder="Enter MobilePayWord Here" value={this.state.MobilePayWord} onChange={this.handleMobilePayWord} />
+                            <Input type="text" ref="dealerName" placeholder="Enter DealerName Here" value={this.state.DealerName} onChange={this.handleDealerName} required/>
+                            <Input type="text" ref="password" placeholder="Enter Password Here" value={this.state.Password} onChange={this.handlePassword} required />
+                            <Input type="text" ref="mobilePayWord" placeholder="Enter MobilePayWord Here" value={this.state.MobilePayWord} onChange={this.handleMobilePayWord} required/>
 
                             <PrimaryButton onClick={this.handleSubmit}> Create New Dealer</PrimaryButton>
                         </form>
@@ -141,8 +124,9 @@ class SmartPay extends React.Component {
                     <Panel centre>
                         <DataGrid
                             idProperty="id"
-                            dataSource={this.state.dataFromServer}
-                            columns={columns} />
+                            dataSource="https://localhost:44370/api/smartpay/GetSmartPayUsers"
+                            columns={columns}
+                   />
                     </Panel>
                 </Content>
             </Page>

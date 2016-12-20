@@ -84,7 +84,7 @@ class BarChart_Turnover extends React.Component {
                     },
                     "tooltip": {
                         "text": " Amount %vt,- DKK <br> Week %kt ",
-                        "placement": "node:top",
+                        "placement": "node:middle",
                         "border-radius": "5px",
                         "font-size": 20
                     },

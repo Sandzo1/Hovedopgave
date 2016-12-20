@@ -71,7 +71,10 @@ class BarChart_Transactions extends React.Component {
         "title": {
           "text": "SmartPay - Transactions peer week",
           "font-family": "Georgia",
-          "offset-y": -12,
+           mediaRules: [{
+                        maxWidth: 600,
+                        "font-size": 14
+                    }]
         },
         "plot": {
           "animation": {
@@ -82,7 +85,7 @@ class BarChart_Transactions extends React.Component {
           },
           "tooltip": {
             "text": "Transactions %vt <br> Week %kt  ",
-            "placement": "node:top",
+            "placement": "node:middle",
             "border-radius": "5px",
             "font-size": 20
 
