@@ -16,7 +16,7 @@ class BarChart_Transactions extends React.Component {
   }
 
   componentDidMount() {
-    setInterval(this.GetTransactions, 10000); //8640 1 time - 69120 8 timer
+    setInterval(this.GetTransactions, 10000); 
   }
   GetTransactions() {
     console.log("GETTING TRANSACTIONS FROM SERVER")

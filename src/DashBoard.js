@@ -40,8 +40,8 @@ class Dashboard extends Component {
         return (
             <Page>
                 <Header>
-                    <Title>CDK SmartPay App</Title>
                     <Button icon="carat-l" onClick={onBack}>Back</Button>
+                    <Title>CDK SmartPay App</Title>
                 </Header>
                 <div id="myBar1">
                     <BarChart_Turnover/>

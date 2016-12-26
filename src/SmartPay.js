@@ -1,5 +1,5 @@
 import React from 'react'
-import { Page, Header, Title, Button, Content, Panel, Image, Input, PrimaryButton, InputGroup } from '@cdkglobal/react-jqm'
+import { Page, Header, Title, Button,Popup, Content, Panel, Image, Input, PrimaryButton, InputGroup } from '@cdkglobal/react-jqm'
 import logo from '@cdkglobal/react-jqm/img/cdk.png'
 import 'react-datagrid/index.css'
 import DataGrid from 'react-datagrid'
@@ -8,11 +8,14 @@ import axios from 'axios'
 const onBack = () => {
     window.location.hash = ''
 }
+const onClose = () => {
+}
 
 class SmartPay extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            popup:  false,
             dataFromServer: [],
             DealerID: '',
             DealerName: '',
@@ -25,14 +28,14 @@ class SmartPay extends React.Component {
         this.handleCreated = this.handleCreated.bind(this);
         this.handlePassword = this.handlePassword.bind(this);
         this.handleMobilePayWord = this.handleMobilePayWord.bind(this);
-
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.postDataToServer = this.postDataToServer.bind(this);
     }
     handleDealerIDChange() {
         let value = this.refs.dealerID.input.value;
         this.setState({ DealerID: value });
     }
-    handleDealerName(event) {
+    handleDealerName() {
         let value = this.refs.dealerName.input.value;
         this.setState({ DealerName: value });
     }
@@ -41,27 +44,24 @@ class SmartPay extends React.Component {
         let timeOffset = gmtDate.getTimezoneOffset() / 60;
         let localDate = new Date(gmtDate.getTime() - timeOffset * 3600 * 1000);
         return localDate.toISOString().replace("T", " ").replace("Z", "");
-
     }
 
-    handlePassword(event) {
+    handlePassword() {
         let value = this.refs.password.input.value;
         this.setState({ Password: value });
     }
-    handleMobilePayWord(event) {
+    handleMobilePayWord() {
         let value = this.refs.mobilePayWord.input.value;
         this.setState({ MobilePayWord: value });
     }
-    handleSubmit(event) {
+    handleSubmit() {
         // event.preventDefault();
         let dateTime = this.handleCreated();
-        this.setState({ Created: dateTime });
-        this.postDataToServer();
+        this.setState({ Created: dateTime, popup:true });
     }
 
     postDataToServer() {
         console.log("posting data to server from SmartPay APP");
-
         let Dealer = {};
         Dealer.dealerID = this.state.DealerID;
         Dealer.dealerName = this.state.DealerName;
@@ -81,16 +81,37 @@ class SmartPay extends React.Component {
             }).then(function (response) {
                 console.log(response)
                 console.log("Dealer created " + response.config.data)
-                alert("Dealer Created " + response.config.data)
-                this.getDataFromServer();
             })
                 .catch(function (error) {
                     console.log(error);
                 });
-
-    }
+                this.setState({
+                popup: false
+            })
+        }
 
     render() {
+          const onClose = () => {
+            this.setState({
+                popup: false
+            })
+        }
+
+        let popup
+        if (this.state.popup) {
+            popup = (
+                <Popup>
+                    <h1>DealerID:{this.state.DealerID}</h1><hr/>
+                    <h1>DealerName:{this.state.DealerName}</h1><hr/>
+                    <h1>Created:{this.state.Created}</h1><hr/>
+                    <h1>Password:{this.state.Password}</h1><hr/>
+                    <h1>MobilePayWord:{this.state.MobilePayWord}</h1>
+                
+                    <Button onClick={this.postDataToServer}>OK</Button>
+                    <Button onClick={onClose}>Cancel</Button>
+                </Popup>
+            )
+        }
         const columns = [
             { name: 'DealerID', width: '15%' },
             { name: 'DealerName', width: '15%' },
@@ -110,17 +131,18 @@ class SmartPay extends React.Component {
                     <Image src={logo} />
 
                     <Panel centre >
-                        <form onSubmit={this.handleSubmit} method="post">
-                            <Input type="text" ref="dealerID" placeholder="Enter DealerID Here" onChange={this.handleDealerIDChange} required/>
-                            <Input type="text" ref="dealerName" placeholder="Enter DealerName Here" value={this.state.DealerName} onChange={this.handleDealerName} required/>
-                            <Input type="text" ref="password" placeholder="Enter Password Here" value={this.state.Password} onChange={this.handlePassword} required />
-                            <Input type="text" ref="mobilePayWord" placeholder="Enter MobilePayWord Here" value={this.state.MobilePayWord} onChange={this.handleMobilePayWord} required/>
+                        <form >
+                            <Input type="text" ref="dealerID" placeholder="Enter DealerID Here" onChange={this.handleDealerIDChange} />
+                            <Input type="text" ref="dealerName" placeholder="Enter DealerName Here" onChange={this.handleDealerName} />
+                            <Input type="text" ref="password" placeholder="Enter Password Here" onChange={this.handlePassword}  />
+                            <Input type="text" ref="mobilePayWord" placeholder="Enter MobilePayWord Here" onChange={this.handleMobilePayWord} />
 
-                            <PrimaryButton onClick={this.handleSubmit}> Create New Dealer</PrimaryButton>
+                            <PrimaryButton onClick={this.handleSubmit}> Create New Dealer </PrimaryButton>
+                                {popup}
                         </form>
                     </Panel>
                     <br />
-
+                  
                     <Panel centre>
                         <DataGrid
                             idProperty="id"

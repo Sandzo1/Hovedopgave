@@ -29,7 +29,7 @@ class BarChart_Turnover extends React.Component {
             axios
             .get('https://localhost:44370/api/smartpay/GetSmartPayTurnover')
             .then(function (result) {
-
+                console.log(result)
                 { /* Setting state to empty */ }
                 _this.setState({
                     dataFromServer: [],
