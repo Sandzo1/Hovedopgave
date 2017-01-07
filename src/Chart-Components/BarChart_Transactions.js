@@ -1,9 +1,7 @@
 import React from 'react';
-import {
-  core as Core
-} from 'zingchart-react';
+import {core as Core} from 'zingchart-react';
 import axios from 'axios'
-
+import fetch from 'whatwg-fetch'
 class BarChart_Transactions extends React.Component {
   constructor(props) {
     super(props);
@@ -27,7 +25,7 @@ class BarChart_Transactions extends React.Component {
 
 
     this.serverRequest =
-      axios
+      fetch
       .get('https://localhost:44370/api/smartpay/GetSmartPayTransactions')
       .then(function (result) {
         console.log(result);
